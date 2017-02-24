@@ -15,5 +15,5 @@ resource "openstack_blockstorage_volume_v2" "volume" {
 
 
 output "vol_id" {
-       value = "openstack_blockstorage_volume_v2.volume.id"
+       value = "${openstack_blockstorage_volume_v2.volume.id}"
 }
