@@ -2,6 +2,7 @@ variable "vol_name" {}
 variable "vol_description" { default = ""}
 variable "vol_size" {}
 variable "vol_tags" {
+	 default = {}
 	 type = "map"
 }
 variable "vol_type" {default = "san_high_perf"}
