@@ -1,4 +1,3 @@
-
 variable "vol_name" {}
 variable "vol_description" { default = ""}
 variable "vol_size" {}
@@ -9,7 +8,7 @@ resource "openstack_blockstorage_volume_v2" "volume" {
 	 name = "${var.vol_name}"
 	 size = "${var.vol_size}"
 	 volume_type = "${var.vol_type}"
-	 metadata = ${var.vol_tags}"
+	 metadata = "${var.vol_tags}"
 }
 
 
