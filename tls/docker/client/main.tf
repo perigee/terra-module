@@ -14,8 +14,6 @@ variable "ssh_user" {
   default = "autoadmin"
 }
 
-variable "ssh_private_key" {}
-
 # docker_client certs
 resource "tls_private_key" "docker_client" {
   algorithm = "RSA"

@@ -29,12 +29,6 @@ variable "early_renewal_hours" {
   default = 720
 }
 
-variable "ssh_user" {
-  default = "autoadmin"
-}
-
-variable "ssh_private_key" {}
-
 # docker_daemon certs
 resource "tls_private_key" "docker_daemon" {
   algorithm = "RSA"
