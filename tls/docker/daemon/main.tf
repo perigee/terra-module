@@ -41,16 +41,6 @@ resource "tls_private_key" "docker_daemon" {
   rsa_bits  = "${var.rsa_bits}"
 }
 
-variable "deploy_hosts" {
-  type = "list"
-}
-
-variable "deploy_hosts_count" {}
-
-variable "deploy_path" {
-  default = "/etc/docker/certs"
-}
-
 resource "tls_cert_request" "docker_daemon" {
   key_algorithm   = "RSA"
   private_key_pem = "${tls_private_key.docker_daemon.private_key_pem}"

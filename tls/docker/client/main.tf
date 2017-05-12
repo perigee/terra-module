@@ -10,12 +10,6 @@ variable "rsa_bits" {
 variable "validity_period_hours" {}
 variable "early_renewal_hours" {}
 
-variable "deploy_hosts" {
-  type = "list"
-}
-
-variable "deploy_hosts_count" {}
-
 variable "ssh_user" {
   default = "autoadmin"
 }
