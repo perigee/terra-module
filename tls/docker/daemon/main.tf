@@ -80,42 +80,6 @@ resource "tls_locally_signed_cert" "docker_daemon" {
   ]
 }
 
-###########################
-# Deploy on target machine
-###########################
-
-resource "null_resource" "configure-docker-dameon-certs" {
-  count = "${var.deploy_hosts_count}"
-
-  triggers {
-    docker_daemon_count       = "${length(var.deploy_hosts)}"
-    docker_daemon_private_key = "${tls_private_key.docker_daemon.private_key_pem}"
-    docker_daemon_certs_pem   = "${element(tls_locally_signed_cert.docker_daemon.*.cert_pem, count.index)}"
-    validity_period_hours     = "${var.validity_period_hours}"
-    early_renewal_hours       = "${var.early_renewal_hours}"
-    ip_addresses_list         = "${join(",", var.ip_list)}"
-    dns_names_list            = "${var.dns_names_list}"
-  }
-
-  connection {
-    user        = "${var.ssh_user}"
-    private_key = "${var.ssh_private_key}"
-    host        = "${element(var.deploy_hosts, count.index)}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "if [ ! -d ${var.deploy_path} ]; then sudo mkdir -p ${var.deploy_path};fi",
-      "echo '${var.ca_cert_pem}' | sudo tee ${var.deploy_path}/ca.pem",
-      "echo '${tls_private_key.docker_daemon.private_key_pem}' | sudo tee ${var.deploy_path}/server-key.pem",
-      "echo '${tls_locally_signed_cert.docker_daemon.cert_pem}' | sudo tee ${var.deploy_path}/server-cert.pem",
-      "sudo chmod 644 ${var.deploy_path}/ca.pem",
-      "sudo chmod 600 ${var.deploy_path}/server-key.pem",
-      "sudo chmod 644 ${var.deploy_path}/server-cert.pem",
-    ]
-  }
-}
-
 output "private_key" {
   value = "${tls_private_key.docker_daemon.private_key_pem}"
 }
